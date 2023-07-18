@@ -1,0 +1,85 @@
+# Diretórios gerados pela IDE Visual Studio
+.vs/
+bin/
+obj/
+
+# Pacotes NuGet restaurados
+packages/
+
+# Arquivos de compilação
+*.dll
+*.exe
+*.pdb
+
+# Arquivos de projeto e solução da IDE
+*.csproj
+*.sln
+
+# Diretório de saída de compilação
+/bin/
+/obj/
+
+# Diretório de pacotes NuGet
+/Packages/
+
+# Arquivos de configuração com informações sensíveis
+*.config
+
+# Arquivos de backup e temporários
+*~
+*.bak
+
+# Ignorar arquivos específicos de exemplo ou teste
+*Example*
+*Test*
+*Samples*
+
+# Arquivos de ambiente local
+*.env
+
+# Cache de ferramentas e extensões
+.vscode/
+.nuget/
+*.userprefs
+
+# Diretório de análise de código e cobertura
+/TestResults/
+/ReSharper/
+
+# Diretório de documentação gerado
+/docs/
+
+# Arquivos de saída de build para linguagens específicas
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignorar arquivos gerados por ferramentas de desenvolvimento
+Generated_Code/
+
+# Cache do Rider (IDE)
+.idea/
+
+# Ignorar arquivos de backup do Visual Studio
+*.bak
+*.cache
+*.suo
+*.user
+*.vspscc
+*.vssscc
+*.vssettings
+*.vsssln
+*.vsconfig
+*.log
+
+# Ignorar arquivos de configuração do editor de texto VSCode
+.vscode/
+
+# Ferramentas F# para Visual Studio
+*.fsproj.user
+*.fsproj.nuget.*
+/*.fsproj.DotSettings
+
+# Ignorar arquivos de cache das ferramentas de criação da Microsoft (MSBuild)
+*.dotnet-*
