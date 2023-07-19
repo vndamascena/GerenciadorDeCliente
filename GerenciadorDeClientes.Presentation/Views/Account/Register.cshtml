@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="text-center text-white">
+
+    <h4>Criar conta de usuário</h4>
+    <p>Informe os dados abaixo para criação de usuário.</p>
+    <hr />
+
+</div>
+
+<form class="text-white">
+
+    <div class="mb-2">
+        <label>Informe seu nome completo:</label>
+        <input type="text" class="form-control"
+                placeholder="Ex: Vagner Silva dos Santos"/>
+    </div>
+
+    <div class="mb2">
+        <label>Informe seu e-mail:</label>
+        <input type="text" class="form-control"
+                placeholder="Ex: vagner@gmail.com"/>
+    </div>
+
+    <div class="mb-2">
+        <label>Crie uma senha:</label>
+        <input type="password" class="form-control" />
+
+    </div>
+    <div class="mb-2">
+        <label>Confirme a senha</label>
+        <input type="password" class="form-control" />
+    </div>
+
+    <div class="mb-2 d-grid">
+        <input type="submit" value="Realizar Cadastro" class="btn btn-light" />
+
+    </div> 
+     
+    <div class="mb-2 text-center">
+        Já possui conta?
+        <a class="text-white" href="/Account/Login">Acesse aqui!</a>
+    </div>
+
+</form>
