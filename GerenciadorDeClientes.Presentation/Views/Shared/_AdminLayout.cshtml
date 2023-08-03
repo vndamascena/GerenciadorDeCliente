@@ -1,0 +1,105 @@
+﻿@using GerenciadorDeClientes.Data.Entities
+@using Newtonsoft.Json
+
+@{
+    var usuario =
+            JsonConvert.DeserializeObject<Usuario>(User.Identity.Name);
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu site</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dataTables.min.css">
+
+</head>
+<body class="bg-success-subtle">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="#">GdC - Gereciador de Clientes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" ariacontrols="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Index">Página inicial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Clientes/Cadastrar">Cadastra cliente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Clientes/Consultar">Consultar cliente</a>
+                    </li>
+                    <li class="nav-item dropdown ms-3">
+                        <a class="nav-link dropdown-toggle bg-success" href="#" id="user-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @usuario.Nome | @usuario.Email
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-success-subtle" aria-labelledby="user-dropdown">
+                            <li class="nav-item">
+                                <a class="dropdown-item text-dark" href="/Account/Logout" onclick="return confirm('Deseja realmente sair do sistema?');">Sair do sistema</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+            <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+    else if (TempData["MensagemAlerta"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show"
+             role="alert">
+            <strong>Alerta!</strong> @TempData["MensagemAlerta"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+    else if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+            <strong>Erro!</strong> @TempData["MensagemErro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="container mt-4">
+        <div class="card bg-success">
+            <div class="card-body">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.7.0.min.js"></script>
+    <script src="/js/dataTables.min.js"></script>
+    <!-- função para ativar o jquery datatables -->
+    <script>
+        //executar quando a página for aberta..
+        $(document).ready(function(){
+            //procurando o elemento HTML que contém a class='datatable'
+            //e então aplicar a formatação do jquery datatables
+            $(".datatable").DataTable({
+                language:
+                {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+                }
+            });
+        }
+    </script>
+</body>
+</html>

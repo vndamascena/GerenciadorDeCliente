@@ -1,0 +1,92 @@
+﻿@using GerenciadorDeClientes.Data.Entities
+
+@model GerenciadorDeClientes.Presentation.Models.ConsultaViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4 class="text-white">Consulta de clientes</h4>
+<p class="text-white"> Preencha um dos campos abaixo, para efetuar a consulta de cliente.</p>
+<hr class="text-white" />
+
+
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "text-white" }))
+{
+
+    <div class="row mb-2 align-items-center">
+
+        <div class="col">
+            <label>CPF:</label>
+            @Html.TextBoxFor(model => model.Cpf, new{@class = "form-control", @placeholder="Digite o CPF"})
+        </div>
+
+        <div class="col">
+            <label>Matrícula:</label>
+            @Html.TextBoxFor(model => model.Matricula, new{@class = "form-control", @placeholder = "Digite a matricula"})
+
+        </div>
+
+
+        <div class="col align-self-end">
+            <input type="submit" class="btn btn-light" value="Consultar cliente" />
+        </div>
+        <p></p>
+        <br>
+
+
+
+        @if (ViewBag.Cliente != null && ViewBag.Cliente.Count > 0)
+        {
+           
+
+
+            <div class="table-responsive mb-2">
+                <table class="table table-sm datatable">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Matrícula</th>
+                            <th>Categoria</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.Cliente as List<Cliente>)
+                        {
+                            <tr>
+                                <td>@item.Nome</td>
+                                <td>@item.Cpf</td>
+                                <td>@item.Matricula</td>
+                                <td></td>
+                                <td>
+                                    <a href="/Clientes/Editar/@item.Id" class="btn btn-sm btn-success">Editar</a>
+                                    <a href="/Clientes/Exclusao/@item.Id" onclick="return confirm('Deseja realmente excluir esse cliente?');"
+                                       class="btn btn-sm btn-danger">Excluir</a>
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+
+
+        }
+        <div>
+
+            <hr class="text-white" />
+        </div>
+
+
+    </div>
+
+
+
+}
+

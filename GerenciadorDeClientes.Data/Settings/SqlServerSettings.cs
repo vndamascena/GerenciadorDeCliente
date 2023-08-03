@@ -11,9 +11,7 @@ namespace GerenciadorDeClientes.Data.Settings
         public static string GetConnectionString()
         {
             return @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BDGerenciadorDeClientes;
-                    Integrated Security=True;Connect Timeout=30;Encrypt=False;
-                    Trust Server Certificate=False;Application Intent=ReadWrite;
-                    Multi Subnet Failover=False
+                    Integrated Security=True;Connect Timeout=30;Encrypt=False
 
             ";
         }

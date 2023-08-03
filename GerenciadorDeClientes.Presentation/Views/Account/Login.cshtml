@@ -1,4 +1,6 @@
-﻿@{
+﻿@model GerenciadorDeClientes.Presentation.Models.AccountLoginViewModel
+
+@{
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
@@ -9,20 +11,40 @@
     <hr />
 
 </div>
+<div class= "text-center">
 
-<form class="text-white">
+    <strong class="text-white">@TempData["Mensagem"]</strong>
+
+</div>
+
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "text-white" }))
+{
+
 
     <div class="mb-2">
+        
         <label>E-mail de acesso:</label>
-        <input type="text" class="form-control"
-               placeholder="Ex: vagner@gmail.com" />
+        @Html.TextBoxFor(model => model.Email, new {@class = "form-control", @placeholder = "Ex: vagner@gmail.com"})
+        <span>
+            @Html.ValidationMessageFor(model => model.Email)
+
+        </span>
+        
 
 
     </div>
 
     <div class="mb-2">
         <label>Senha de acesso:</label>
-        <input type="password" class="form-check form-control" />
+        @Html.PasswordFor(model => model.Senha, new {@class = "form-control"})
+
+        <span>
+            @Html.ValidationMessageFor(model => model.Senha)
+        </span>
+
+        
+
         <div class="text-end">
             <a class="text-white" href="/Account/ForgotPassword">Esqueci minha senha</a>
 
@@ -40,5 +62,4 @@
         </div>
 
     </div>
-
-</form>
+}

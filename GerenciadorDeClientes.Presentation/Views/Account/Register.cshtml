@@ -1,4 +1,7 @@
-﻿@{
+﻿@model GerenciadorDeClientes.Presentation.Models.AccountRegisterViewModel
+
+
+@{
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
@@ -10,38 +13,62 @@
 
 </div>
 
-<form class="text-white">
+<div class="mb-2 text-center text-white">
+    <strong>@TempData["Mensagem"]</strong>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    
+
 
     <div class="mb-2">
-        <label>Informe seu nome completo:</label>
-        <input type="text" class="form-control"
-                placeholder="Ex: Vagner Silva dos Santos"/>
+        <label class="text-white">Informe seu nome completo:</label>
+        @Html.TextBoxFor(model => model.Nome,
+             new {@class = "form-control", @placeholder = "Ex: Vagner Silva dos Santos" })
+        <span class="text-warning fw-bold">@Html.ValidationMessageFor(model => model.Nome)</span>
+
     </div>
 
     <div class="mb2">
-        <label>Informe seu e-mail:</label>
-        <input type="text" class="form-control"
-                placeholder="Ex: vagner@gmail.com"/>
+        <label class="text-white">Informe seu e-mail:</label>
+        @Html.TextBoxFor(model => model.Email,
+        new {@class = "form-control", @placeholder = "Ex: vagner@gmail.com"})
+
+        <span class="text-warning fw-bold">@Html.ValidationMessageFor(model => model.Email)</span>
+
+        
     </div>
 
     <div class="mb-2">
-        <label>Crie uma senha:</label>
-        <input type="password" class="form-control" />
+        <label class="text-white">Crie uma senha:</label>
+        @Html.PasswordFor(model => model.Senha,
+        new {@class = "form-control"})
+
+        <span class="text-warning fw-bold">@Html.ValidationMessageFor(model => model.Senha)</span>
+
+        
 
     </div>
     <div class="mb-2">
-        <label>Confirme a senha</label>
-        <input type="password" class="form-control" />
+
+        <label class="text-white">Confirme a senha</label>
+        @Html.PasswordFor(model => model.ConfirmaSenha, new{@class = "form-control"})
+        <span class="text-warning fw-bold">@Html.ValidationMessageFor(model => model.ConfirmaSenha)</span>
+
     </div>
 
     <div class="mb-2 d-grid">
         <input type="submit" value="Realizar Cadastro" class="btn btn-light" />
+        <hr class="text-white">
 
     </div> 
+   
      
-    <div class="mb-2 text-center">
+    <div class="mb-2 text-center text-white">
         Já possui conta?
         <a class="text-white" href="/Account/Login">Acesse aqui!</a>
     </div>
 
-</form>
+}

@@ -1,0 +1,166 @@
+﻿@model GerenciadorDeClientes.Presentation.Models.ClienteCadastroViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4 class="text-white">Cadastrar Cliente</h4>
+<p class="text-white"> Preencha os dados abaixo, para realizar o cadastro do cliente.</p>
+<hr class="text-white" />
+
+
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "text-white" }))
+{
+    <div class=" row mb-2">
+        <div class="col">
+            <label>Nome:</label>
+            @Html.TextBoxFor(model => model.Nome, new {@class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.Nome)</span>
+            
+        </div>
+
+        <div class="col">
+            <label>CPF:</label>
+            @Html.TextBoxFor(model => model.Cpf, new {@class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.Cpf)</span>
+        </div>
+
+        <div class="col">
+            <label>Matrícula:</label>
+            @Html.TextBoxFor(model => model.Matricula, new {@class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.Matricula)</span>
+        </div>
+
+    </div>
+    <div class=" row mb-2">
+
+        <div class="col-auto">
+            <label>Data de Nascimento:</label>
+            @Html.TextBoxFor(model => model.DataN, new {@type = "date",@id="dataNascimento", @class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.DataN)</span>
+
+            
+        </div>
+
+        <div class="col-auto">
+            <label>Idade:</label>
+            <div id="idade"></div>
+        </div>
+
+        <div class="col-auto">
+            <label>Estado civil:</label>
+            @Html.TextBoxFor(model => model.Civil, new {@class = "form-control"})
+
+        </div>
+        <div class="col">
+
+            <label>Pai:</label>
+            @Html.TextBoxFor(model => model.Pai, new {@class = "form-control"})
+            
+
+        </div>
+        <div class="col">
+
+            <label>Mãe:</label>
+            @Html.TextBoxFor(model => model.Mae, new {@class = "form-control"})
+
+        </div>
+
+
+    </div>
+
+
+    <div class="row mb-2">
+
+        <div class="col-4">
+            <label>Endereço:</label>
+            @Html.TextBoxFor(model => model.Endereco, new {@class = "form-control"})
+        </div>
+
+        <div class="col-2">
+
+            <label>CEP:</label>
+            @Html.TextBoxFor(model => model.Cep, new {@class = "form-control"})
+
+        </div>
+        <div class="col-1">
+            <label>Estado:</label>
+            @Html.TextBoxFor(model => model.Estado, new {@class = "form-control"})
+        </div>
+        <div class="col">
+            <label>Município:</label>
+            @Html.TextBoxFor(model => model.Municipio, new {@class = "form-control"})
+        </div>
+        <div class="col">
+            <label>Bairro:</label>
+            @Html.TextBoxFor(model => model.Bairro, new {@class = "form-control"})
+        </div>
+
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col">
+            <label>Telefone:</label>
+            @Html.TextBoxFor(model => model.Telefone, new {@class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.Telefone)</span>
+        </div>
+        <div class="col">
+            <label>Celular:</label>
+            @Html.TextBoxFor(model => model.Celular, new {@class = "form-control"})
+        </div>
+        <div class="col">
+            <label>E-mail:</label>
+            @Html.TextBoxFor(model => model.Celular, new {@class = "form-control"})
+        </div>
+
+
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-2">
+            <label>Categoria:</label>
+            @Html.DropDownListFor(model => model.CategoriaId, ViewBag.Categoria as List<SelectListItem>,
+                "Escolha uma opção", new {@class = "form-select"})
+            <span>@Html.ValidationMessageFor(model => model.CategoriaId)</span>
+           
+        </div>
+        <div class="col-2">
+            <label>Salário:</label>
+            @Html.TextBoxFor(model => model.Salario, new {@class = "form-control"})
+            <span>@Html.ValidationMessageFor(model => model.Salario)</span>
+            
+        </div>
+
+        <div class="col-8">
+            <label>Observações:</label>
+            @Html.TextAreaFor(model => model.Observacao, new {@class = "form-control"})
+        </div>
+        <br />
+        <hr class="text-white" />
+
+    </div>
+
+    <div class="mb-2">
+        <input type="submit" class="btn btn-light" value="Realizar cadastro" />
+
+    </div>
+
+
+
+    <script>
+        // Função para calcular a idade com base na data de nascimento
+        function calcularIdade() {
+            const dataNascimento = new Date(document.getElementById("dataNascimento").value);
+            const hoje = new Date();
+            const diff = hoje - dataNascimento;
+            const idade = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            document.getElementById("idade").innerText = idade + " anos";
+        }
+        // Adicionar um ouvinte de evento para calcular a idade sempre que a data de nascimento for alterada
+        document.getElementById("dataNascimento").addEventListener("change", calcularIdade);
+
+    </script>
+
+}
+
