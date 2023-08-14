@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using ContasApp.Presentation.Helpers;
 
 namespace GerenciadorDeClientes.Presentation.Controllers
 {
@@ -119,12 +120,56 @@ namespace GerenciadorDeClientes.Presentation.Controllers
 
         public IActionResult ForgotPassword()
         {
+
+
+
             return View();
         }
 
         [HttpPost]
         public IActionResult ForgotPassword(AccountForgotPasswordViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var usuarioRepository = new UsuarioRepository();
+                    var usuario = usuarioRepository.GetByEmail(model.Email);
+
+                    if (usuario != null)
+                    {
+                        var novaSenha = PasswordHelper.GeneratePassword(true, true, true, true, 10);
+                        var subject = "Recuperação de senha de usuário - Gerecencidor de Cliente.";
+                        var body = $@"<div style='padding: 40px; margin: 40px; border:
+                                        1px solid #ccc; text-align: center;'>
+                                   <h1> GdC - Gerenciador de cliente</h1>
+                                   <br/>
+                                   <tr>
+                                   <h5>Olá {usuario.Nome}</h5>
+                                   <p>Uma nova senha de acesso foi gerada para você.</p>
+                                   <p>Acesse o sistema com a senha:{novaSenha}</p>
+                                   <br/>
+                                   <p>Att, equipe GdC</p>
+                                   </div>";
+
+                        EmailMessageHelper.SendMessage(usuario.Email, subject, body);
+                        
+                        usuarioRepository.UpdatePassword(usuario.Id, novaSenha);
+                        TempData["Mensagem"] = "Recuperação de senha realizada com sucesso.";
+                        ModelState.Clear();
+                    }
+                    else
+                    {
+                        TempData["Mensagem"] = "Usuário não encontrado";
+                    }
+                }
+
+                catch (Exception e)
+                {
+                    TempData["Mensagem"] = e.Message;
+                }
+
+            }
             return View();
         }
 

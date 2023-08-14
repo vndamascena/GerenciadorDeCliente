@@ -43,6 +43,8 @@ namespace GerenciadorDeClientes.Presentation.Models
         public string? Pai { get; set; }
         public string? Mae { get; set; }
         public string? Celular { get; set; }
+
+        [EmailAddress(ErrorMessage = "Informe um e-mail valido")]
         public string? Email { get; set; }
         public string? Idade {get; set;}
     }

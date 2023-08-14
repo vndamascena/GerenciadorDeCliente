@@ -38,7 +38,7 @@ namespace GerenciadorDeClientes.Data.Repositories
         public void Update(Usuario usuario)
         {
             var atualizar = @"
-                UPDATE USAURIO
+                UPDATE USUARIO
                 SET
                 NOME = @Nome,
                 EMAIL = @Email,
@@ -52,6 +52,23 @@ namespace GerenciadorDeClientes.Data.Repositories
             using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
             {
                 connection.Execute(atualizar, usuario);
+            }
+        }
+
+        public void UpdatePassword(Guid idUsuario, string senha)
+        {
+            var atualizarSenha = @"
+                UPDATE USUARIO
+                SET
+                    SENHA = CONVERT(VARCHAR(32), HASHBYTES('MD5', @Senha ), 2)
+                WHERE
+                    ID =@IdUsuario
+
+
+            ";
+            using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
+            {
+                connection.Execute(atualizarSenha, new { @IdUsuario = idUsuario, @Senha = senha });
             }
         }
 

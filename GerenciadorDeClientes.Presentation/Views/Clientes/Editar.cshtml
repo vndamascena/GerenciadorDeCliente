@@ -36,7 +36,7 @@
 
         <div class="col-auto">
             <label>Data de Nascimento:</label>
-            @Html.TextBoxFor(model => model.DataN, new {@type = "date",@id="dataNascimento", @class = "form-control"})
+            @Html.TextBoxFor(model => model.DataN, "{0:yyyy-MM-dd}", new {@type = "date",@id="dataNascimento", @class = "form-control"})
             <span>@Html.ValidationMessageFor(model => model.DataN)</span>
 
 
@@ -111,7 +111,7 @@
         </div>
         <div class="col">
             <label>E-mail:</label>
-            @Html.TextBoxFor(model => model.Celular, new {@class = "form-control"})
+            @Html.TextBoxFor(model => model.Email, new {@class = "form-control"})
         </div>
 
 
@@ -152,7 +152,6 @@
 
 
 
-
     <script>
         // Função para calcular a idade com base na data de nascimento
         function calcularIdade() {
@@ -165,7 +164,10 @@
         // Adicionar um ouvinte de evento para calcular a idade sempre que a data de nascimento for alterada
         document.getElementById("dataNascimento").addEventListener("change", calcularIdade);
 
+        // Calcular a idade quando a página for carregada
+        calcularIdade();
     </script>
+
 
 }
 

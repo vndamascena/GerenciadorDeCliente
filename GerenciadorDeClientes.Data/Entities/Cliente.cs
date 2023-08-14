@@ -15,6 +15,8 @@ namespace GerenciadorDeClientes.Data.Entities
         private string? _matricula;
         private DateTime? _datan;
         private string? _idade;
+        private string? _pai;
+        private string? _mae;
         private string? _civil;
         private string? _cep;
         private string? _endereco;
@@ -28,6 +30,7 @@ namespace GerenciadorDeClientes.Data.Entities
         private Decimal? _salario;
         private Guid _categoriaId;
         private Guid _usuarioId;
+        private Categoria? _categoria;
 
 
 
@@ -55,6 +58,12 @@ namespace GerenciadorDeClientes.Data.Entities
         public decimal? Salario { get => _salario; set => _salario = value; }
         public Guid CategoriaId { get => _categoriaId; set => _categoriaId = value; }
         public Guid UsuarioId { get => _usuarioId; set => _usuarioId = value; }
+        public string? Pai { get => _pai; set => _pai = value; }
+        public string? Mae { get => _mae; set => _mae = value; }
+        public Categoria? Categoria { get => _categoria; set => _categoria = value; }
+        public int Tipo { get; set; }
+        public Decimal Qtd { get; set; }
+
 
 
         #endregion

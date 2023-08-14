@@ -14,57 +14,33 @@ namespace GerenciadorDeClientes.Data.Repositories
     {
         public void Add(Cliente cliente)
         {
-            string dataFormatoBanco = cliente.Datan?.ToString("MM'/'dd'/'yyyy");
-
+            
             var query = @"
-                INSERT INTO CLIENTE(ID, NOME, CPF, MATRICULA, DATA, IDADE, CIVIL,
+                INSERT INTO CLIENTE(ID, NOME, CPF, MATRICULA, DATAN, IDADE, PAI, MAE, CIVIL,
                     CEP, ENDERECO, ESTADO, MUNICIPIO, BAIRRO, TELEFONE, CELULAR, EMAIL,
                     SALARIO, CATEGORIAID, USUARIOID, OBSERVACAO)
-                VALUES(@Id, @Nome, @Cpf, @Matricula, @Data, @Idade, @Civil, @Cep, @Endereco,
+                VALUES(@Id, @Nome, @Cpf, @Matricula, @DataN, @Idade, @Pai, @Mae, @Civil, @Cep, @Endereco,
                         @Estado, @Municipio, @Bairro, @Telefone, @Celular, @Email,
                         @Salario, @CategoriaId, @UsuarioId, @Observacao)
                 
             ";
             using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
             {
-                connection.Execute(query, new
-                {
-                    cliente.Id,
-                    cliente.Nome,
-                    cliente.Cpf,
-                    cliente.Matricula,
-                    Data = dataFormatoBanco, // Utilizar o nome 'Data' aqui, como na consulta
-                    cliente.Idade,
-                    cliente.Civil,
-                    cliente.Cep,
-                    cliente.Endereco,
-                    cliente.Estado,
-                    cliente.Municipio,
-                    cliente.Bairro,
-                    cliente.Telefone,
-                    cliente.Celular,
-                    cliente.Email,
-                    cliente.Observacao,
-                    cliente.Salario,
-                    cliente.CategoriaId,
-                    cliente.UsuarioId
-                });
-
-
-
+                connection.Execute(query, cliente);
+                
             }
         }
         public void Update(Cliente cliente)
         {
-            string dataFormatoBanco = cliente.Datan?.ToString("MM'/'dd'/'yyyy");
-
             var query = @"
                 UPDATE CLIENTE
                 SET
                     NOME = @Nome,
                     MATRICULA = @Matricula,
-                    DATA = @Data,
+                    DATAN = @DataN,
                     IDADE = @Idade,
+                    PAI = @Pai,
+                    MAE = @Mae,
                     CEP = @Cep,
                     ENDERECO = @Endereco,
                     ESTADO = @Estado,
@@ -81,34 +57,15 @@ namespace GerenciadorDeClientes.Data.Repositories
             ";
             using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
             {
-                connection.Execute(query, new
-                {
-                    cliente.Id,
-                    cliente.Nome,
-                    cliente.Cpf,
-                    cliente.Matricula,
-                    Data = dataFormatoBanco, // Utilizar o nome 'Data' aqui, como na consulta
-                    cliente.Idade,
-                    cliente.Civil,
-                    cliente.Cep,
-                    cliente.Endereco,
-                    cliente.Estado,
-                    cliente.Municipio,
-                    cliente.Bairro,
-                    cliente.Telefone,
-                    cliente.Celular,
-                    cliente.Email,
-                    cliente.Observacao,
-                    cliente.Salario,
-                    cliente.CategoriaId,
-                    cliente.UsuarioId
-                });
+                connection.Execute(query, cliente);
+
             }
         }
 
         public void Delete(Cliente cliente)
         {
             var query = @"
+
                 DELETE  FROM CLIENTE
                 WHERE ID = @Id
 
@@ -122,8 +79,11 @@ namespace GerenciadorDeClientes.Data.Repositories
         public List<Cliente> GetByCpfAndUsuario(string cpf, string matricula, Guid usuarioId) 
         {
             var query = @"
-                SELECT * FROM CLIENTE
-                WHERE USUARIOID = @UsuarioId
+                SELECT * FROM CLIENTE cl
+                INNER JOIN CATEGORIA ca
+                ON cl.CATEGORIAID = ca.ID
+                WHERE cl.USUARIOID =  @UsuarioId
+                
             ";
 
             if (!string.IsNullOrEmpty(cpf))
@@ -138,11 +98,16 @@ namespace GerenciadorDeClientes.Data.Repositories
 
             using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
             {
-                return connection.Query<Cliente>(query, new {@UsuarioId = usuarioId}).ToList();
+                return connection.Query(query,
+                (Cliente cl, Categoria ca) =>{cl.Categoria = ca;
+                    return cl;},
+                        new{@UsuarioId = usuarioId, },
+                        splitOn: "CategoriaId").ToList();
             }
 
+
         }
-  
+
         public Cliente? GetById(Guid id)
         {
             var query = @"

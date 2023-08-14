@@ -1,0 +1,47 @@
+﻿@model GerenciadorDeClientes.Presentation.Models.UsuarioAlterarSenhaViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h5 class="text-white">Alterar Senha de acesso</h5>
+<p class="text-white">
+    Preencha os campos abaixo para alterar sua senha de acesso.
+</p>
+<hr  class="text-white"/>
+
+
+@using (Html.BeginForm(FormMethod.Post, new { @class = "text-white" }))
+{
+    <div class="row mb-2">
+        <div class="col">
+            <label>Informe sua senha atual:</label>
+            @Html.PasswordFor(model => model.SenhaAtual,
+            new { @class = "form-control" })
+            <span>
+                @Html.ValidationMessageFor(model => model.SenhaAtual)
+            </span>
+        </div>
+        <div class="col">
+            <label>Informe sua nova senha:</label>
+            @Html.PasswordFor(model => model.NovaSenha,
+            new { @class = "form-control" })
+            <span>
+                @Html.ValidationMessageFor(model => model.NovaSenha)
+            </span>
+        </div>
+        <div class="col">
+            <label>Confirme sua nova senha:</label>
+            @Html.PasswordFor(model => model.NovaSenhaConfirmacao,
+            new { @class = "form-control" })
+            <span>
+                @Html.ValidationMessageFor(model => model.NovaSenhaConfirmacao)
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input type="submit" class="btn btn-light"
+                   value="Salvar alterações" />
+        </div>
+    </div>
+}

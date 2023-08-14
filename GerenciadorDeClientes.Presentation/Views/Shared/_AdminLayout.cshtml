@@ -2,8 +2,7 @@
 @using Newtonsoft.Json
 
 @{
-    var usuario =
-            JsonConvert.DeserializeObject<Usuario>(User.Identity.Name);
+    var usuario = JsonConvert.DeserializeObject<Usuario>(User.Identity.Name);
 }
 
 <!DOCTYPE html>
@@ -38,7 +37,10 @@
                         <a class="nav-link dropdown-toggle bg-success" href="#" id="user-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @usuario.Nome | @usuario.Email
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end bg-success-subtle" aria-labelledby="user-dropdown">
+                        <ul class="dropdown-menu dropdown-menu-end bg-success-subtle" aria-labelledby="user-dropdown"> 
+                            <li class="nav-item">
+                                <a class="dropdown-item" href="/Usuarios/AlterarSenha">Alterar senha de acesso</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="dropdown-item text-dark" href="/Account/Logout" onclick="return confirm('Deseja realmente sair do sistema?');">Sair do sistema</a>
                             </li>
@@ -87,6 +89,10 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery-3.7.0.min.js"></script>
     <script src="/js/dataTables.min.js"></script>
+    <script src="/js/highcharts.js"></script>
+
+    @RenderSection("scripts", required: false)
+
     <!-- função para ativar o jquery datatables -->
     <script>
         //executar quando a página for aberta..
@@ -98,8 +104,10 @@
                 {
                     url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
                 }
+
+               
             });
-        }
+        })
     </script>
 </body>
 </html>

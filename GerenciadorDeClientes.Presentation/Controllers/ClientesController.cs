@@ -40,6 +40,8 @@ namespace GerenciadorDeClientes.Presentation.Controllers
                         Matricula = model.Matricula,
                         Datan = model.DataN.Value,
                         Idade = model.Idade,
+                        Pai = model.Pai,
+                        Mae = model.Mae,
                         Civil = model.Civil,
                         Cep = model.Cep,
                         Endereco = model.Endereco,
@@ -126,27 +128,61 @@ namespace GerenciadorDeClientes.Presentation.Controllers
         }
 
 
-        public IActionResult ConsultarCliente()
+        public IActionResult ConsultarCliente(Guid id)
         {
-            return View();
+            var model = new ConsultarClienteViewModel();
+            try
+            {
+
+                var clienteRepository = new ClienteRepository();
+                var cliente = clienteRepository.GetById(id);
+
+
+
+                model.Id = cliente.Id;
+                model.Nome = cliente.Nome;
+                model.Cpf = cliente.Cpf;
+                model.Matricula = cliente.Matricula;
+                model.DataN = cliente.Datan;
+                model.Idade = cliente.Idade;
+                
+                model.Telefone = cliente.Telefone;
+              
+                model.Salario = cliente.Salario;
+                model.Observacao = cliente.Observacao;
+                model.Categoria = cliente.Categoria;
+                
+              
+            }
+            catch (Exception e)
+            {
+                TempData["MensagemErro"] = e.Message;
+            }
+            return View(model);
         }
+
+        
+
+
         public IActionResult Editar(Guid id)
         {
             var model = new ClienteEdicaoViewModel();
             try
             {
-                //buscar a conta no repositório através do ID
+                
                 var clienteRepository = new ClienteRepository();
                 var cliente = clienteRepository.GetById(id);
                 
 
-                //preencher o objeto 'model' com os dados da conta
+                
                 model.Id = cliente.Id;
                 model.Nome = cliente.Nome;
                 model.Cpf= cliente.Cpf;
                 model.Matricula = cliente.Matricula;
                 model.DataN = cliente.Datan;
                 model.Idade = cliente.Idade;
+                model.Pai = cliente.Pai;
+                model.Mae = cliente.Mae;
                 model.Civil = cliente.Civil;
                 model.Cep = cliente.Cep;
                 model.Endereco = cliente.Endereco;
@@ -186,6 +222,8 @@ namespace GerenciadorDeClientes.Presentation.Controllers
                         Matricula = model.Matricula,
                         Datan = model.DataN.Value,
                         Idade = model.Idade,
+                        Pai = model.Pai,
+                        Mae = model.Mae,
                         Civil = model.Civil,
                         Cep = model.Cep,
                         Endereco = model.Endereco,
