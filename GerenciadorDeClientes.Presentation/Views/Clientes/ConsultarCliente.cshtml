@@ -15,20 +15,20 @@
         <div class="col">
             <label>Nome:</label>
             @Html.TextBoxFor(model => model.Nome, new {@class = "form-control", @readonly = "readonly"})
-            <span>@Html.ValidationMessageFor(model => model.Nome)</span>
+          
 
         </div>
 
         <div class="col">
             <label>CPF:</label>
             @Html.TextBoxFor(model => model.Cpf, new {@class = "form-control", @readonly = "readonly"})
-            <span>@Html.ValidationMessageFor(model => model.Cpf)</span>
+           
         </div>
 
         <div class="col">
             <label>Matrícula:</label>
             @Html.TextBoxFor(model => model.Matricula, new {@class = "form-control", @readonly = "readonly"})
-            <span>@Html.ValidationMessageFor(model => model.Matricula)</span>
+            
         </div>
 
     </div>
@@ -37,8 +37,7 @@
         <div class="col-auto">
             <label>Data de Nascimento:</label>
             @Html.TextBoxFor(model => model.DataN, "{0:yyyy-MM-dd}", new {@type = "date",@id="dataNascimento", @class = "form-control", @readonly = "readonly"})
-            <span>@Html.ValidationMessageFor(model => model.DataN)</span>
-
+            
 
         </div>
 
@@ -65,7 +64,7 @@
         <div class="col col-2">
             <label>Telefone:</label>
             @Html.TextBoxFor(model => model.Telefone, new {@class = "form-control",@readonly = "readonly"})
-            <span>@Html.ValidationMessageFor(model => model.Telefone)</span>
+            
 
         </div>
 
@@ -77,15 +76,15 @@
 
         <div class="col-2">
             <label>Categoria:</label>
-            @Html.TextBoxFor(model => model.Categoria, new { @class = "form-control", @readonly = "readonly"})
+            @Html.DropDownListFor(model => model.CategoriaId, ViewBag.Categoria as List<SelectListItem>,"", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled"})
 
-            <span>@Html.ValidationMessageFor(model => model.Categoria)</span>
+           
         </div>
 
         <div class="col-2">
             <label>Salário:</label>
             @Html.TextBoxFor(model => model.Salario, new { @class = "form-control", @readonly = "readonly", @id = "salario" })
-            <span>@Html.ValidationMessageFor(model => model.Salario)</span>
+           
         </div>
 
         <div class="col-2">
@@ -96,7 +95,7 @@
         <div class="col-2">
             <label>Fator:</label>
             @Html.TextBoxFor(model => model.Fator, new { @class = "form-control",  @id = "fatorInput" })
-            <span>@Html.ValidationMessageFor(model => model.Fator)</span>
+           
         </div>
 
         <div class="col-2">
@@ -135,7 +134,7 @@
         function calcularParcelaFatorValorLiberado() {
             const salario = parseFloat(document.getElementById("salario").value);
             const parcela = salario * 0.3;
-            const fator = parseFloat(document.getElementById("fatorInput").value || "0.02589");
+            const fator = parseFloat(document.getElementById("fatorInput").value.replace(",", "."));
 
             if (fator > 0.0) {
                 valorLiberado = parcela / fator;

@@ -108,6 +108,30 @@ namespace GerenciadorDeClientes.Data.Repositories
 
         }
 
+        public List<Cliente> GetByCategoria(Guid categoriaId, Guid usuarioId)
+        {
+            var query = @"
+                SELECT * FROM CLIENTE cl
+                INNER JOIN CATEGORIA ca
+                ON cl.CATEGORIAID = ca.ID
+                WHERE cl.USUARIOID =  @UsuarioId AND cl.CATEGORIAID = @categoriaId
+                
+            ";
+
+            using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
+            {
+                return connection.Query(query,
+                (Cliente cl, Categoria ca) => {
+                    cl.Categoria = ca;
+                    return cl;
+                },
+                        new { @UsuarioId = usuarioId, @CategoriaId = categoriaId },
+                        splitOn: "CategoriaId").ToList();
+            }
+
+
+        }
+
         public Cliente? GetById(Guid id)
         {
             var query = @"

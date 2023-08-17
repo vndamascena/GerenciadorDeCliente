@@ -37,58 +37,48 @@ namespace GerenciadorDeClientes.Presentation.Controllers
         }
 
         //método para gerar os dados do gráfico
-        
+
         private List<object> ObterParametro()
         {
-            
-            //capturar o usuário autenticado no arquivo de cookie do Asp.Net
             var usuario = JsonConvert.DeserializeObject<Usuario>(User.Identity.Name);
 
-            
-
             var clienteRepository = new ClienteRepository();
-            var parametros =  clienteRepository.GetByCpfAndUsuario(null,null,usuario.Id);
+            var parametros = clienteRepository.GetByCpfAndUsuario(null, null, usuario.Id);
 
-            var lista = new List<object>();
-            lista.Add(new
+            var lista = ((List<SelectListItem>)ViewBag.Categoria).Select(cat => new
             {
-                Nome = "Aeronautica",
-                Qtd = parametros.Where(c => c.Tipo == 1).Sum(c => c.Qtd)
-            });
-            lista.Add(new
-            {
-                Nome = "Aposentado INSS",
-                Qtd = parametros.Where(c => c.Tipo == 2).Sum(c => c.Qtd)
-            });
-            lista.Add(new
-            {
-                Nome = "Total de Contas a Receber",
-                Qtd = parametros.Where(c => c.Tipo == 3).Sum(c => c.Qtd)
-            });
-            lista.Add(new
-            {
-                Nome = "Total de Contas a Pagar",
-                Qtd = parametros.Where(c => c.Tipo == 4).Sum(c => c.Qtd)
-            });
+                Nome = cat.Text,
+                Qtd = clienteRepository.GetByCategoria(Guid.Parse(cat.Value), usuario.Id).Count(),
+            }).ToList();
 
-
-            return lista;
+            return lista.Cast<object>().ToList();
         }
+
+
+
+
+
 
 
         private List<object> ObterTotalCategorias()
         {
-            //capturar o usuário autenticado no arquivo de cookie do Asp.Net
-            var usuario = JsonConvert.DeserializeObject
-           <Usuario>(User.Identity.Name);
-            
-            //consultando no banco de dados as contas do usuário no período
-            var contaRepository = new ClienteRepository();
-            var categoria = contaRepository.GetByCpfAndUsuario(null, null, usuario.Id);
-            var lista = categoria.GroupBy(cliente => cliente.Categoria.Descricao).Select(grupo => new{Categoria = grupo.Key,
-               Total = grupo.Sum(cliente => cliente.Qtd)}).ToList();
+            var usuario = JsonConvert.DeserializeObject<Usuario>(User.Identity.Name);
+
+            var clienteRepository = new ClienteRepository();
+            var clientes = clienteRepository.GetByCpfAndUsuario(null, null, usuario.Id);
+
+            var lista = clientes.GroupBy(cliente => cliente.Categoria.Descricao)
+                                .Select(grupo => new
+                                {
+                                    Categoria = grupo.Key,
+                                    TotalClientes = grupo.Count()  // Conta o número de clientes em cada categoria
+                                })
+                                .ToList();
 
             return lista.Cast<object>().ToList();
         }
-    } 
+
+
+
+    }
 }

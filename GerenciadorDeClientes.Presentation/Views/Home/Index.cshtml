@@ -5,20 +5,10 @@
 }
 
 <h5 class="text-white">Seja bem vindo ao sistema!</h5>
-<p class="text-white">Selecione uma categoria para o resumo.</p>
+<p class="text-white"></p>
 <hr class="text-white" />
-@using (Html.BeginForm(FormMethod.Post, new { @class = "text-white" }))
-{
-    <div class="row mb-2">
-        <div class="col-md-2">
-            @Html.DropDownListFor(model => model.CategoriaId, ViewBag.Categoria as List<SelectListItem>, new { @class = "form-select" })
-        </div>
 
-        <div class="col-md-8">
-            <input type="submit" class="btn btn-primary" value="Aplicar filtro" />
-        </div>
-    </div>
-}
+
 <div class="row mb-5 mt-3">
     <div class="col">
         <div id="graficoTipos"></div>
@@ -30,45 +20,59 @@
 
 
 @section scripts {
-    <script>
-
+   <script>
+        // Dados para o gráfico de pizza (parâmetros)
         const dadosPizza = [];
-    </script>
+        @foreach (var item in ViewBag.Parametros)
+        {
+            <text>
+                dadosPizza.push(["@item.Nome", @item.Qtd]);
+            </text>
+        }
+        
+        // Dados para o gráfico de barras (totalCategoria)
+        const dadosBarras = [
+            @foreach (var item in ViewBag.TotalCategoria)
+            {
+                <text>
+                {
+                    categoria: "@Html.Raw(item.Categoria)", // Usa Html.Raw para evitar escaping de caracteres
+                    valor: @item.TotalClientes
+                },
+                </text>
+            }
+        ];
 
-    @foreach (var item in ViewBag.Parametros)
-    {
-        <script>dadosPizza.push(['@item.Nome', @item.Qtd]);</script>
-    }
-
-   
+   </script>
 
     <script>
 
-        // Dados para o gráfico de barras
-        const dadosBarras = [
-            { categoria: 'Alimentação', valor: 1500 },
-            { categoria: 'Transporte', valor: 1000 },
-            { categoria: 'Educação', valor: 800 },
-            { categoria: 'Saúde', valor: 1200 }
-        ];
-        // Cores para os dados
-        const coresPizza = ['#d9534f', '#5cb85c'];
-        const coresBarras = ['#FFA500', '#008000', '#0000FF', '#800080'];
+       
+        
+        
+        
         // Configurações do gráfico de pizza
         const opcoesPizza = {
             chart: {
                 type: 'pie'
             },
             title: {
-                text: 'Contas a Receber e Contas a Pagar'
+                text: 'Clientes por categoria'
+            },
+            tooltip: {
+                pointFormat: '<b>{point.name}</b>: {point.y} clientes'
             },
             series: [{
-                name: 'Valor',
+                name: 'Clientes',
                 data: dadosPizza
             }],
             plotOptions: {
                 pie: {
-                    colors: coresPizza
+                    
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.y}'
+                    }
                 }
             }
         };
@@ -79,25 +83,23 @@
                 type: 'column'
             },
             title: {
-                text: 'Valor de Contas por Categoria'
+                text: 'Quantidade de clientes'
             },
             xAxis: {
                 categories: dadosBarras.map(item => item.categoria)
             },
             yAxis: {
                 title: {
-                    text: 'Valor'
+                    text: 'Quantidade'
                 }
             },
+
+          
             series: [{
-                name: 'Valor',
+                name: 'Quantidade',
                 data: dadosBarras.map(item => item.valor)
             }],
-            plotOptions: {
-                bar: {
-                    colors: coresBarras
-                }
-            }
+           
         };
         // Renderizar os gráficos
         Highcharts.chart('graficoTipos', opcoesPizza);

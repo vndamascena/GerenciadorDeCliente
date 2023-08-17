@@ -145,14 +145,17 @@ namespace GerenciadorDeClientes.Presentation.Controllers
                 model.Matricula = cliente.Matricula;
                 model.DataN = cliente.Datan;
                 model.Idade = cliente.Idade;
-                
+
                 model.Telefone = cliente.Telefone;
-              
+
                 model.Salario = cliente.Salario;
                 model.Observacao = cliente.Observacao;
-                model.Categoria = cliente.Categoria;
-                
-              
+                model.CategoriaId = cliente.CategoriaId;
+                model.Fator = 0.02589m;
+
+                ViewBag.Categoria = ObterCategoria();
+
+
             }
             catch (Exception e)
             {

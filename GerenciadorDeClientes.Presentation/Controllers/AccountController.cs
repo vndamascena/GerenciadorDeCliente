@@ -155,7 +155,7 @@ namespace GerenciadorDeClientes.Presentation.Controllers
                         EmailMessageHelper.SendMessage(usuario.Email, subject, body);
                         
                         usuarioRepository.UpdatePassword(usuario.Id, novaSenha);
-                        TempData["Mensagem"] = "Recuperação de senha realizada com sucesso.";
+                        TempData["Mensagem"] = "Recuperação de senha realizada com sucesso. Verifique sua caixa de e-mail.";
                         ModelState.Clear();
                     }
                     else

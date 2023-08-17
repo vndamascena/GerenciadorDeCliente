@@ -17,7 +17,7 @@ namespace GerenciadorDeClientes.Presentation.Models
         public string? Matricula { get; set; }
 
        
-        public Categoria? Categoria { get; set; }
+        public Guid? CategoriaId { get; set; }
 
         
         public string? Telefone { get; set; }
@@ -32,7 +32,7 @@ namespace GerenciadorDeClientes.Presentation.Models
 
         public DateTime? DataN { get; set; }
 
-        public Decimal? Fator { get; set; } 
+        public Decimal? Fator { get; set; } = 0.02589m;
 
         public Decimal? ValorLiberado { get; set; }
     }
