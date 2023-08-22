@@ -57,18 +57,17 @@ namespace GerenciadorDeClientes.Data.Repositories
 
         public void UpdatePassword(Guid idUsuario, string senha)
         {
-            var atualizarSenha = @"
+            var query = @"
                 UPDATE USUARIO
                 SET
-                    SENHA = CONVERT(VARCHAR(32), HASHBYTES('MD5', @Senha ), 2)
+                    SENHA = CONVERT(VARCHAR(32), HASHBYTES('MD5', @Senha), 2)
                 WHERE
-                    ID =@IdUsuario
-
-
+                    ID = @IdUsuario
             ";
+
             using (var connection = new SqlConnection(SqlServerSettings.GetConnectionString()))
             {
-                connection.Execute(atualizarSenha, new { @IdUsuario = idUsuario, @Senha = senha });
+                connection.Execute(query, new { @IdUsuario = idUsuario, @Senha = senha });
             }
         }
 
@@ -105,9 +104,9 @@ namespace GerenciadorDeClientes.Data.Repositories
         public Usuario? GetByEmailAndSenha(string email, string senha)
         {
             var emailsenha = @"
-                SELECT * FROM USUARIO
-                
-                WHERE EMAIL = @Email AND SENHA = @Senha
+               SELECT * FROM USUARIO 
+                WHERE EMAIL = @Email 
+                AND SENHA = CONVERT(VARCHAR(32), HASHBYTES('MD5', @Senha), 2)
 
             ";
 

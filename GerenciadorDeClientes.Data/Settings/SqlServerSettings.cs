@@ -10,8 +10,8 @@ namespace GerenciadorDeClientes.Data.Settings
     {
         public static string GetConnectionString()
         {
-            return @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BDGerenciadorDeClientes;
-                    Integrated Security=True;Connect Timeout=30;Encrypt=False
+            return @"Data Source=SQL5106.site4now.net;Initial Catalog=db_a9de66_gerenciadorcliente;User Id=db_a9de66_gerenciadorcliente_admin;Password=Isadora03*
+
 
             ";
         }
